@@ -1,9 +1,11 @@
+const cors = require('cors')
 const express = require('express')
 const {uuid, isUuid} = require('uuidv4')
 
 const app = express()
-const port = 3333
+const port = 3000
 
+app.use(cors())
 app.use(express.json())
 
 const projects = []
@@ -44,9 +46,9 @@ app.get('/projects', (request, response) => {
 })
 
 app.post('/projects', (request, response) => {
-    const {nome, idade} = request.body
+    const {nome, tipo} = request.body
     
-    const project = {id: uuid(), nome, idade}
+    const project = {id: uuid(), nome, tipo}
 
     projects.push(project)
 
@@ -55,7 +57,7 @@ app.post('/projects', (request, response) => {
 
 app.put('/projects/:id', (request, response) => {
     const {id} = request.params
-    const {nome, idade} = request.body
+    const {nome, tipo} = request.body
     
     const projectIndex = projects.findIndex(project => project.id === id)
 
@@ -66,7 +68,7 @@ app.put('/projects/:id', (request, response) => {
     const project = {
         id,
         nome,
-        idade 
+        tipo 
     }
 
     projects[projectIndex] = project
